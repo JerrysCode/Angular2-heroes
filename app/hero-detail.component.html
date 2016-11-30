@@ -1,0 +1,15 @@
+<div *ngIf="hero">
+    <!-- -
+   单向绑定，model->UI, 但是UI的修改不会反映到模型
+   -->
+    <h2>{{hero.name}} details</h2>
+    <div><label>id:</label>{{hero.id}}</div>
+    <div>
+        <label>name:</label>
+        <!-- -
+        双向绑定，model<->UI
+        -->
+        <input [(ngModel)]="hero.name" placeholder="name"/>
+    </div>
+    <button (click)="goBack()" >Back</button>
+</div>

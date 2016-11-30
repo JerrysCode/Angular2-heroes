@@ -1,0 +1,24 @@
+<h2>My Heros</h2>
+<ul class="heroes">
+    <!--
+    1. click事件绑定，调用Component的onSelect方法
+    2. 单向数据绑定，右边的值赋给左边。
+        如果hero==selected， 那么把selected绑定到class属性
+        否则，移除绑定
+    -->
+    <li *ngFor="let hero of heros"
+
+        [class.selected]="hero==selectedHero"
+        (click)="onSelect(hero)">
+        <span class="badge">{{hero.id}}</span>{{hero.name}}
+    </li>
+</ul>
+<!-- 把selectedHero对象绑定到my-hero-detail Component的hero属性上
+<my-hero-detail [hero]="selectedHero"></my-hero-detail>
+-->
+
+<div *ngIf="selectedHero">
+    <!--管道格式化-->
+    <h2>{{selectedHero.name | uppercase}} is my hero</h2>
+    <button (click)="gotoDetail()">View Details</button>
+</div>
