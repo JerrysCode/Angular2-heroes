@@ -5,8 +5,7 @@
         <!--*ngFor不能直接使用可观察对象，
         需要我们在它后面跟一个async pipe (AsyncPipe)。
         这个async管道会订阅到这个可观察对象，并且为*ngFor生成一个英雄数组。-->
-        <div *ngFor="let hero of heroes" | async
-            (click)="gotoDetail(hero)" class="search-result">
+        <div *ngFor="let hero of heroes | async" (click)="gotoDetail(hero)" class="search-result">
             {{hero.name}}
         </div>
     </div>

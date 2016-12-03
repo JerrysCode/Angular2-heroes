@@ -18,7 +18,7 @@ import { Hero } from './hero';
 export class HeroSearchComponent implements OnInit{
     heroes: Observable<Hero[]>;
 
-    //Subject是一个可观察的事件流中的生产者。s生成一个产生字符串的Observable
+    //Subject是一个可观察的事件流中的生产者。生成一个产生字符串的Observable
     private  searchTerms = new Subject<string>();
 
     constructor(
@@ -32,30 +32,18 @@ export class HeroSearchComponent implements OnInit{
 
     //如果直接把每一次用户按键都直接传给HeroSearchService，就会发起一场HTTP请求风暴
     ngOnInit(): void {
-           /* this.heroes = this.searchTerms
-                .debounceTime(300)  //等待300ms
-                .distinctUntilChanged()  //如果没变化，不搜索
-                //switchMap会为每个从debounce和distinctUntilChanged中通过的搜索词调用搜索服务。它会取消并丢弃以前的搜索可观察对象，只保留最近的
-                .switchMap(term =>
-                    term ? this.heroSearchService.search(term)
-                        : Observable.of<Hero[]>([]))
-                .catch(error =>{
-                        console.log(error);
-                        return Observable.of<Hero[]>([]);
-                });*/
-
         this.heroes = this.searchTerms
-            .debounceTime(300)        // wait for 300ms pause in events
-            .distinctUntilChanged()   // ignore if next search term is same as previous
-            .switchMap(term => term   // switch to new observable each time
-                // return the http search observable
+            .debounceTime(300)  //等待300ms
+            .distinctUntilChanged()  //如果没变化，不搜索
+            //switchMap会为每个从debounce和distinctUntilChanged中通过的搜索词调用搜索服务。它会取消并丢弃以前的搜索可观察对象，只保留最近的
+            .switchMap(term => term
                 ? this.heroSearchService.search(term)
-                // or the observable of empty heroes if no search term
-                : Observable.of<Hero[]>([]))
+                : Observable.of<Hero[]>([])
+            )
             .catch(error => {
-                // TODO: real error handling
                 console.log(error);
                 return Observable.of<Hero[]>([]);
+
             });
     }
 
