@@ -37,6 +37,28 @@ var HeroesComponent = (function () {
         //和[routerLink]绑定是一样的
         this.router.navigate(['/detail', this.selectedHero.id]);
     };
+    HeroesComponent.prototype.add = function (name) {
+        var _this = this;
+        name = name.trim();
+        if (!name) {
+            return;
+        }
+        this.heroService.create(name)
+            .then(function (hero) {
+            _this.heros.push(hero);
+            _this.selectedHero = null;
+        });
+    };
+    HeroesComponent.prototype.delete = function (hero) {
+        var _this = this;
+        this.heroService.delete(hero.id)
+            .then(function () {
+            _this.heros = _this.heros.filter(function (h) { return h != hero; });
+            if (_this.selectedHero == hero) {
+                _this.selectedHero = null;
+            }
+        });
+    };
     HeroesComponent = __decorate([
         core_1.Component({
             //文件引用方式，moduleId是必须的

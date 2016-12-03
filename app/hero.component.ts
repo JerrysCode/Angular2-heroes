@@ -19,8 +19,6 @@ import {Router} from "@angular/router";
 
 })
 export class HeroesComponent implements OnInit{
-
-
     heros : Hero[];
     selectedHero : Hero;
 
@@ -48,6 +46,26 @@ export class HeroesComponent implements OnInit{
     gotoDetail():void{
         //和[routerLink]绑定是一样的
         this.router.navigate(['/detail', this.selectedHero.id]);
+    }
+
+    add(name: String): void{
+        name = name.trim();
+        if(!name){return;}
+        this.heroService.create(name)
+             .then(hero => {
+             this.heros.push(hero);
+             this.selectedHero = null;
+            })
+    }
+
+    delete(hero: Hero){
+            this.heroService.delete(hero.id)
+                .then(() => {
+                    this.heros = this.heros.filter(h => h!=hero);
+                    if(this.selectedHero==hero){
+                        this.selectedHero = null;
+                    }
+                });
     }
 
 }
